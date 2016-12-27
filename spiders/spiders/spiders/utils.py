@@ -4,7 +4,7 @@ __author__ = "roman.subik"
 import re
 
 
-def normalize_number(str_repr):
+def normalize_number(str_repr, type='int'):
     search = re.search("[0-9\.,\s]+", str_repr)
 
     try:
@@ -14,15 +14,14 @@ def normalize_number(str_repr):
     except AttributeError as ae:
         return None
 
-    if "." in number or "," in number:
+    if "." in number or "," in number or type == 'float':
         return float(number)
 
     return int(number)
 
 
 def normalize_string(str_rep):
-    try:
-        return str_rep.replace(":", "").replace(u'\xc3', u'ó').replace(u'\u0142', u'ł')\
-            .replace(u'\u015b', u'ś').strip()
-    except TypeError as e:
-        return str_rep
+    if str_rep:
+        return str_rep.replace(":", "").strip()
+
+    return str_rep

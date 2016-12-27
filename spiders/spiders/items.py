@@ -11,6 +11,7 @@ import scrapy
 class PropertyItem(scrapy.Item):
     # define the fields for your item here like:
     title = scrapy.Field()
+    date_added = scrapy.Field()
     price = scrapy.Field()
     size = scrapy.Field()
     num_rooms = scrapy.Field()

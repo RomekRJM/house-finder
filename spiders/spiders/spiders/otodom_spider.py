@@ -2,6 +2,9 @@ __author__ = "roman.subik"
 
 import scrapy
 
+from datetime import datetime, timedelta
+import re
+
 from utils import normalize_number, normalize_string
 from spiders.items import PropertyItem
 
@@ -52,11 +55,28 @@ class OtoDomSpider(scrapy.Spider):
 
         property_item['title'] = response.css("header.col-md-offer-content h1::text").extract_first()
         property_item['price'] = normalize_number(price)
-        property_item['size'] = normalize_number(size)
+        property_item['size'] = normalize_number(size, type='float')
         property_item['num_rooms'] = normalize_number(num_rooms)
         property_item['floor'] = normalize_number(floor)
         property_item['price_per_sqm'] = normalize_number(price) / float(normalize_number(size))
         property_item['sublist'] = sublist
         property_item['extras_list'] = extras_list
+        property_item['date_added'] = extract_date(response)
 
         yield property_item
+
+
+def extract_date(response):
+    date = response.css("div.text-details div.right h1::text").extract_first()
+    m = re.search('ponad ([0-9])+', date)
+
+    if m:
+        return datetime.now() - timedelta(days=int(m.group(1)))
+
+    m = re.search('([0-9])+\.([0-9])+\.([0-9])+')
+
+    if m:
+        day, month, year = m.group(1, 2, 3)
+        return datetime(day=day, month=month, year=year)
+
+    return None
