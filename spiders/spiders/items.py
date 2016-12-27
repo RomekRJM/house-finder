@@ -8,7 +8,13 @@
 import scrapy
 
 
-class SpidersItem(scrapy.Item):
+class PropertyItem(scrapy.Item):
     # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
+    title = scrapy.Field()
+    price = scrapy.Field()
+    size = scrapy.Field()
+    num_rooms = scrapy.Field()
+    floor = scrapy.Field()
+    price_per_sqm = scrapy.Field()
+    sublist = scrapy.Field()
+    extras_list = scrapy.Field()

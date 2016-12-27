@@ -13,7 +13,7 @@ BOT_NAME = 'spiders'
 
 SPIDER_MODULES = ['spiders.spiders']
 NEWSPIDER_MODULE = 'spiders.spiders'
-
+DEFAULT_ITEM_CLASS = 'spiders.items.PropertyItem'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'spiders (+http://www.yourdomain.com)'
@@ -89,7 +89,11 @@ ROBOTSTXT_OBEY = True
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 
-ELASTICSEARCH_SERVERS = ['localhost']
+ITEM_PIPELINES = {
+  'scrapyelasticsearch.scrapyelasticsearch.ElasticSearchPipeline': 800,
+}
+
+ELASTICSEARCH_SERVERS = ['http://localhost']
+ELASTICSEARCH_PORT = 9200
 ELASTICSEARCH_INDEX = 'estate'
-ELASTICSEARCH_INDEX_DATE_FORMAT = '%Y-%m-%d'
-ELASTICSEARCH_TYPE = 'items'
+ELASTICSEARCH_TYPE = 'property'

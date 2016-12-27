@@ -3,6 +3,7 @@ __author__ = "roman.subik"
 import scrapy
 
 from utils import normalize_number, normalize_string
+from spiders.items import PropertyItem
 
 
 class OtoDomSpider(scrapy.Spider):
@@ -28,6 +29,7 @@ class OtoDomSpider(scrapy.Spider):
         # self.log('Saved file %s' % filename)
 
     def parse_property(self, response):
+        property_item = PropertyItem()
         price, size, num_rooms, floor = response.css("ul.main-list li span strong::text").extract()
         sublist_keys = response.css("ul.sub-list li strong::text").extract()
         sublist_values = response.css("ul.sub-list li::text").extract()
@@ -48,13 +50,13 @@ class OtoDomSpider(scrapy.Spider):
                     extra.css('ul.dotted-list li::text').extract_first()
                 )
 
-        yield {
-            'title': response.css("header.col-md-offer-content h1::text").extract_first(),
-            'price': normalize_number(price),
-            'size': normalize_number(size),
-            'num_rooms': normalize_number(num_rooms),
-            'floor': normalize_number(floor),
-            'price_per_sqm': normalize_number(price) / float(normalize_number(size)),
-            'sublist': sublist,
-            'extras_list': extras_list
-        }
+        property_item['title'] = response.css("header.col-md-offer-content h1::text").extract_first()
+        property_item['price'] = normalize_number(price)
+        property_item['size'] = normalize_number(size)
+        property_item['num_rooms'] = normalize_number(num_rooms)
+        property_item['floor'] = normalize_number(floor)
+        property_item['price_per_sqm'] = normalize_number(price) / float(normalize_number(size))
+        property_item['sublist'] = sublist
+        property_item['extras_list'] = extras_list
+
+        yield property_item
