@@ -18,5 +18,4 @@ class PropertyItem(scrapy.Item):
     price_per_sqm = scrapy.Field()
     sublist = scrapy.Field()
     extras_list = scrapy.Field()
-    latitude = scrapy.Field()
-    longitude = scrapy.Field()
+    location = scrapy.Field()
