@@ -26,11 +26,6 @@ class OtoDomSpider(scrapy.Spider):
         if next_link:
             yield scrapy.Request(url=next_link, callback=self.parse_page)
 
-        # filename = 'links.txt'
-        # with open(filename, 'wa') as f:
-        #     f.write(str(links))
-        # self.log('Saved file %s' % filename)
-
     def parse_property(self, response):
         property_item = PropertyItem()
         price, size, num_rooms, floor = response.css("ul.main-list li span strong::text").extract()
