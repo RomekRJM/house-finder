@@ -1,12 +1,12 @@
 __author__ = "roman.subik"
 
-import scrapy
-
-from datetime import datetime, timedelta
 import re
+from datetime import datetime, timedelta
+
+import scrapy
+from spiders.items import PropertyItem
 
 from utils import normalize_number, normalize_string
-from spiders.items import PropertyItem
 
 
 class OtoDomSpider(scrapy.Spider):
@@ -21,7 +21,7 @@ class OtoDomSpider(scrapy.Spider):
         for link in links:
             yield scrapy.Request(url=link, callback=self.parse_property)
 
-        next_link = response.css("ul.pager li a::attr(href)").extract_first()
+        next_link = response.css("ul.pager li a[data-dir*=next]::attr(href)").extract_first()
 
         if next_link:
             yield scrapy.Request(url=next_link, callback=self.parse_page)
@@ -73,12 +73,12 @@ class OtoDomSpider(scrapy.Spider):
 def extract_date(response):
     date = response.css("div.text-details div.right p::text").extract_first()
 
-    m = re.search('ponad ([0-9])+', date)
+    m = re.search('ponad ([0-9]+)', date)
 
     if m:
         return datetime.now() - timedelta(days=int(m.group(1)))
 
-    m = re.search('([0-9])+\.([0-9])+\.([0-9])+', date)
+    m = re.search('([0-9]+)\.([0-9]+)\.([0-9]+)', date)
 
     if m:
         day, month, year = m.group(1, 2, 3)
