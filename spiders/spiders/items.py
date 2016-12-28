@@ -9,7 +9,6 @@ import scrapy
 
 
 class PropertyItem(scrapy.Item):
-    # define the fields for your item here like:
     title = scrapy.Field()
     date_added = scrapy.Field()
     price = scrapy.Field()
@@ -19,3 +18,5 @@ class PropertyItem(scrapy.Item):
     price_per_sqm = scrapy.Field()
     sublist = scrapy.Field()
     extras_list = scrapy.Field()
+    latitude = scrapy.Field()
+    longitude = scrapy.Field()

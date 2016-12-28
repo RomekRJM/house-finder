@@ -53,6 +53,8 @@ class OtoDomSpider(scrapy.Spider):
                     extra.css('ul.dotted-list li::text').extract_first()
                 )
 
+        latitude, longitude = extract_geo_data(response)
+
         property_item['title'] = response.css("header.col-md-offer-content h1::text").extract_first()
         property_item['price'] = normalize_number(price)
         property_item['size'] = normalize_number(size, type='float')
@@ -62,21 +64,31 @@ class OtoDomSpider(scrapy.Spider):
         property_item['sublist'] = sublist
         property_item['extras_list'] = extras_list
         property_item['date_added'] = extract_date(response)
+        property_item['latitude'] = latitude
+        property_item['longitude'] = longitude
 
         yield property_item
 
 
 def extract_date(response):
-    date = response.css("div.text-details div.right h1::text").extract_first()
+    date = response.css("div.text-details div.right p::text").extract_first()
+
     m = re.search('ponad ([0-9])+', date)
 
     if m:
         return datetime.now() - timedelta(days=int(m.group(1)))
 
-    m = re.search('([0-9])+\.([0-9])+\.([0-9])+')
+    m = re.search('([0-9])+\.([0-9])+\.([0-9])+', date)
 
     if m:
         day, month, year = m.group(1, 2, 3)
-        return datetime(day=day, month=month, year=year)
+        return datetime(day=int(day), month=int(month), year=int(year))
 
     return None
+
+
+def extract_geo_data(response):
+    latitude = response.css("div#adDetailInlineMap::attr(data-poi-lat)").extract_first()
+    longitude = response.css("div#adDetailInlineMap::attr(data-poi-lon)").extract_first()
+
+    return normalize_number(latitude, type='float'), normalize_number(longitude, type='float')

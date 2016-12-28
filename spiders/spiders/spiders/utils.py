@@ -4,8 +4,12 @@ __author__ = "roman.subik"
 import re
 
 
-def normalize_number(str_repr, type='int'):
-    search = re.search("[0-9\.,\s]+", str_repr)
+def normalize_number(obj, type='int'):
+
+    if isinstance(obj, (int, float)):
+        return obj
+
+    search = re.search("[0-9\.,\s]+", obj)
 
     try:
         number = search.group(0)
