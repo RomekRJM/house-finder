@@ -9,9 +9,26 @@ MAPPING = {
     },
     "mappings": {
         ELASTICSEARCH_TYPE: {
-            "properties": {
-                "location": {"type": "geo_point"}
-            }
+            "dynamic_templates": [
+                {
+                    "location_field": {
+                        "mapping": {
+                            "type": "geo_point",
+                            "tree": "quadtree",
+                            "precision": "1m"
+                        },
+                        "match": "location"
+                    }
+                },
+                {
+                    "all_string_fields": {
+                        "mapping": {
+                            "type": "string",
+                            "analyzer": "polish"
+                        },
+                        "match_mapping_type": "string"
+                    }
+                }]
         }
     }
 }
