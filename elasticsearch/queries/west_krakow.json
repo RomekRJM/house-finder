@@ -1,7 +1,12 @@
 {
   "query": {
     "bool": {
-      "filter": [
+      "must": [
+        {
+          "match": {
+            "ownership": "pełna własność"
+          }
+        },
         {
           "range": {
             "size": {
@@ -30,7 +35,9 @@
               "lte": 4
             }
           }
-        },
+        }
+      ],
+      "filter": [
         {
           "geo_polygon": {
             "location": {
