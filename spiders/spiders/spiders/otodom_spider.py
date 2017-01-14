@@ -31,31 +31,27 @@ class OtoDomSpider(scrapy.Spider):
         price, size, num_rooms, floor = response.css("ul.main-list li span strong::text").extract()
         sublist_keys = response.css("ul.sub-list li strong::text").extract()
         sublist_values = response.css("ul.sub-list li::text").extract()
-        sublist = {}
 
         for i in range(0, len(sublist_keys)):
-            sublist[normalize_string(sublist_keys[i])] = normalize_string(sublist_values[i])
+            property_item.set_field(normalize_string(sublist_keys[i]), normalize_string(sublist_values[i]))
 
         extras = response.css("ul.params-list li")
-
-        extras_list = {}
 
         for index, extra in enumerate(extras):
             h4 = extra.css("h4::text").extract_first()
 
             if h4:
-                extras_list[normalize_string(h4)] = normalize_string(
+                property_item.set_field(normalize_string(h4), normalize_string(
                     extra.css('ul.dotted-list li::text').extract_first()
-                )
+                ))
 
+        property_item['url'] = response.url
         property_item['title'] = response.css("header.col-md-offer-content h1::text").extract_first()
         property_item['price'] = normalize_number(price)
         property_item['size'] = normalize_number(size, type='float')
         property_item['num_rooms'] = normalize_number(num_rooms)
         property_item['floor'] = normalize_number(floor)
         property_item['price_per_sqm'] = normalize_number(price) / float(normalize_number(size))
-        property_item['sublist'] = sublist
-        property_item['extras_list'] = extras_list
         property_item['date_added'] = extract_date(response)
         property_item['location'] = extract_geo_data(response)
 
