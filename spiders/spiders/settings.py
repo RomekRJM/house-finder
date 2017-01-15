@@ -93,6 +93,7 @@ ITEM_PIPELINES = {
   'scrapyelasticsearch.scrapyelasticsearch.ElasticSearchPipeline': 800,
 }
 
+ELASTICSEARCH_UNIQ_KEY = 'url'
 ELASTICSEARCH_SERVERS = ['http://localhost']
 ELASTICSEARCH_PORT = 9200
 ELASTICSEARCH_INDEX = 'estate'
