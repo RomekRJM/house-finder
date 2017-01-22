@@ -15,7 +15,7 @@ if __name__ == '__main__':
 
     if mode == 'init':
         es_helper = ElasticSearchHelper()
-        es_helper.init_mappings(MAPPING)
+        es_helper.redo_index(MAPPING)
 
         # settings = Settings()
         # os.environ['SCRAPY_SETTINGS_MODULE'] = 'spiders.settings'

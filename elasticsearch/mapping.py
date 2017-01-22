@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 __author__ = "roman.subik"
 
 import requests
@@ -33,12 +35,31 @@ MAPPING = {
     }
 }
 
+QUERIES = [
+    {
+        u'title': u'Kraków zachód',
+        u'query_path': 'elasticsearch/queries/west_krakow.json'
+    }
+]
+
 
 class ElasticSearchHelper(object):
     def __init__(self):
         self.url = "{}:{}/{}/".format(ELASTICSEARCH_SERVERS[0], ELASTICSEARCH_PORT, ELASTICSEARCH_INDEX)
 
-    def init_mappings(self, mapping):
-        response = requests.delete(self.url)
-        response = requests.put(self.url, json=mapping)
-        pass
+    def redo_index(self, mapping):
+        requests.delete(self.url)
+        requests.put(self.url, json=mapping)
+
+    def find_interesting_flats(self):
+        results = {}
+
+        for query in QUERIES:
+            response = requests.get(self.url + '_search', query)
+
+            if response.code == 200:
+                results[query['title']] = response.json.get('hits', [])
+
+            print('Got response {} form ElasticSearch, reason: {}'.format(response.code, response.json))
+
+        return results
