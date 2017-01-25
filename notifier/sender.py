@@ -83,7 +83,7 @@ class EmailSender(object):
                                                       price=item.get('price', '?'),
                                                       size=item.get('size', '?'),
                                                       floor=item.get('floor', '?'),
-                                                      score=hit.get('score')
+                                                      score=hit.get('_score')
                                                       )
 
         return email_body_template.format(full_rapport=full_rapport)
