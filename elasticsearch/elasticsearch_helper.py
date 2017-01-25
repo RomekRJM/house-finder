@@ -2,6 +2,8 @@
 
 __author__ = "roman.subik"
 
+import json
+
 import requests
 from spiders.settings import ELASTICSEARCH_INDEX, ELASTICSEARCH_PORT, ELASTICSEARCH_SERVERS, ELASTICSEARCH_TYPE
 
@@ -55,11 +57,15 @@ class ElasticSearchHelper(object):
         results = {}
 
         for query in QUERIES:
-            response = requests.get(self.url + '_search', query)
+            query_body = {}
+            with open(query['query_path']) as query_file:
+                query_body = json.load(query_file)
 
-            if response.code == 200:
-                results[query['title']] = response.json.get('hits', [])
+            response = requests.get(self.url + '_search', json=query_body)
 
-            print('Got response {} form ElasticSearch, reason: {}'.format(response.code, response.json))
+            if response.status_code == 200:
+                results[query['title']] = response.json().get('hits', [])
+            else:
+                print('Got response {} form ElasticSearch, reason: {}'.format(response.status_code, response.json))
 
         return results
