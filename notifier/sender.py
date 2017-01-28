@@ -6,26 +6,41 @@ import smtplib
 from email.message import Message
 
 email_body_template = """
-Dear recipients,<br/>
+<h3>Dear recipients!<br/>
 <br/>
 I've found some cool flats, that you might want to check out:<br/>
+</h3>
 <br/>
-{full_rapport}<br/>
+<table cellpadding="5">
+    <tr bgcolor="#e6f7ff">
+        <th><big>Title</big></th>
+        <th><big>Price</big></th>
+        <th><big>Size</big></th>
+        <th><big>Location</big></th>
+        <th><big>Floor</big></th>
+        <th><big>Score</big></th>
+    </tr>
+    {full_rapport}
+</table>
 <br/>
+<br/>
+<h3>
 Follow the links, to see more info!<br/>
 <br/>
 Best regards,<br/>
 Your handy house-finder :)
+</h3>
 """
 
 flat_info_body = """
-Url: {url}<br/>
-Title: {title}<br/>
-Price: {price}<br/>
-Size: {size}<br/>
-Floor: {floor}<br/>
-Match score: {score}<br/>
-<br/>
+    <tr bgcolor="{color}">
+        <td><img src="{image}" width="133" height="100"/><br/><a href="{url}">{title}</a></td>
+        <td align="right">{price}</td>
+        <td align="right">{size}</td>
+        <td align="right">{query}</td>
+        <td align="right">{floor}</td>
+        <td align="right">{score}</td>
+    <tr/>
 """
 
 
@@ -73,17 +88,22 @@ class EmailSender(object):
                 continue
 
             hits = result.get('hits', [])
-
-            full_rapport += '<h3>{}</h3><br/>'.format(query_title.encode('utf-8'))
+            counter = 0
 
             for hit in hits:
                 item = hit['_source']
+                first_image = reduce(lambda x,y: x or y, item.get('images', []))
                 full_rapport += flat_info_body.format(url=item.get('url', '?'),
+                                                      image=first_image,
                                                       title=item.get('title', '?').encode('utf-8'),
-                                                      price=item.get('price', '?'),
-                                                      size=item.get('size', '?'),
+                                                      price=str(item.get('price', '?')) + ' PLN'.encode('utf-8'),
+                                                      size=str(item.get('size', '?')) + " m^2",
+                                                      query=query_title.encode('utf-8'),
                                                       floor=item.get('floor', '?'),
-                                                      score=hit.get('_score')
+                                                      score=round(float(hit.get('_score')), 2),
+                                                      color='#e6f7ff' if counter % 2 else '#f0f5f5'
                                                       )
+
+                counter += 1
 
         return email_body_template.format(full_rapport=full_rapport)

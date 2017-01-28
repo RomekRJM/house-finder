@@ -54,6 +54,7 @@ class OtoDomSpider(scrapy.Spider):
         property_item['price_per_sqm'] = normalize_number(price) / float(normalize_number(size))
         property_item['date_added'] = extract_date(response)
         property_item['location'] = extract_geo_data(response)
+        property_item['images'] = extract_images(response)
 
         yield property_item
 
@@ -83,3 +84,7 @@ def extract_geo_data(response):
         'lat': normalize_number(latitude, type='float'),
         'lon': normalize_number(longitude, type='float')
     }
+
+
+def extract_images(response):
+    return response.css("a.gallery-box-thumb-item::attr(href)").extract()
