@@ -15,7 +15,7 @@ if __name__ == '__main__':
 
     es_helper = ElasticSearchHelper()
 
-    if mode == 'init':
+    if mode == 'crawl':
         es_helper.redo_index(MAPPING)
 
         # settings = Settings()

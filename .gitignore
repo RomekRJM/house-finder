@@ -91,3 +91,5 @@ ENV/
 # pycharm
 .idea/
 
+# local secrets
+run-me-real.sh
