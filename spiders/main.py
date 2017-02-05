@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 
+import os
 import sys
 
 from scrapy.crawler import CrawlerProcess
 from scrapy.utils.project import get_project_settings
 
-from elasticsearch.elasticsearch_helper import ElasticSearchHelper, MAPPING
 from notifier.sender import EmailSender
+from search.elasticsearch_helper import ElasticSearchHelper, MAPPING
 from spiders.spiders.otodom_spider import OtoDomSpider
 
 mode = sys.argv[1]
@@ -18,11 +19,8 @@ if __name__ == '__main__':
     if mode == 'init':
         es_helper.redo_index(MAPPING)
 
-        # settings = Settings()
-        # os.environ['SCRAPY_SETTINGS_MODULE'] = 'spiders.settings'
-        # settings_module_path = os.environ['SCRAPY_SETTINGS_MODULE']
-        # settings.setmodule(settings_module_path, priority='project')
-
+    elif mode == 'crawl':
+        os.environ['SCRAPY_SETTINGS_MODULE'] = 'spiders.settings'
         process = CrawlerProcess(get_project_settings())
         process.crawl(OtoDomSpider)
         process.start()
