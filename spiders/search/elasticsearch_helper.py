@@ -40,7 +40,7 @@ MAPPING = {
 QUERIES = [
     {
         u'title': u'Kraków zachód',
-        u'query_path': 'elasticsearch/queries/west_krakow.json'
+        u'query_path': 'spiders/search/queries/west_krakow.json'
     }
 ]
 
