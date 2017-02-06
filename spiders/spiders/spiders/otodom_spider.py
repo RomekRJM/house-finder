@@ -55,6 +55,7 @@ class OtoDomSpider(scrapy.Spider):
         property_item['date_added'] = extract_date(response)
         property_item['location'] = extract_geo_data(response)
         property_item['images'] = extract_images(response)
+        property_item['notified_on'] = None
 
         yield property_item
 

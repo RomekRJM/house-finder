@@ -3,6 +3,7 @@
 __author__ = "roman.subik"
 
 import json
+from datetime import datetime
 
 import requests
 from spiders.settings import ELASTICSEARCH_INDEX, ELASTICSEARCH_PORT, ELASTICSEARCH_SERVERS, ELASTICSEARCH_TYPE
@@ -69,3 +70,19 @@ class ElasticSearchHelper(object):
                 print('Got response {} form ElasticSearch, reason: {}'.format(response.status_code, response.json))
 
         return results
+
+    def mark_as_notified(self, query_results):
+        for query_title in query_results:
+            result = query_results[query_title]
+
+            if not result['total']:
+                continue
+
+            hits = result.get('hits', [])
+            for hit in hits:
+                update_url = '{}{}/{}/_update'.format(self.url, ELASTICSEARCH_TYPE, hit['_id'])
+                requests.post(update_url, json={
+                    "doc": {
+                        "notified_on": str(datetime.utcnow())
+                    }
+                })

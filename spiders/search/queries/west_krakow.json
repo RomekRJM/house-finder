@@ -37,6 +37,13 @@
           }
         }
       ],
+      "must_not": [
+        {
+          "exists": {
+            "field": "notified_on"
+          }
+        }
+      ],
       "filter": [
         {
           "geo_polygon": {

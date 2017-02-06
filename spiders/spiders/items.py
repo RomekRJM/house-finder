@@ -51,6 +51,7 @@ class PropertyItem(scrapy.Item):
     building_state = scrapy.Field()
     security = scrapy.Field()
     images = scrapy.Field()
+    notified_on = scrapy.Field()
 
     def set_field(self, polish_field_name, field_value):
         self[field_mappings[polish_field_name]] = field_value

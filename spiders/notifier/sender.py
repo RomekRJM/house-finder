@@ -53,19 +53,29 @@ class EmailSender(object):
     def send_email(self, recipients, subject, query_results):
         message = self._create_message(recipients, subject, query_results)
 
+        if not message:
+            print 'Nothing to notify about today'
+            return
+
         try:
             self._send_message(recipients, message)
-            print 'successfully sent the mail'
+            print 'Successfully sent the mail'
         except Exception as e:
-            print "failed to send mail: {}".format(e)
+            print "Failed to send mail: {}".format(e)
+            raise e
 
     def _create_message(self, recipients, subject, query_results):
+        body = self.create_body(query_results)
+
+        if not body:
+            return None
+
         message = Message()
         message['From'] = self.user
         message['To'] = ", ".join(recipients)
         message['Subject'] = subject.encode('utf-8')
         message.add_header('Content-Type', 'text/html')
-        message.set_payload(self.create_body(query_results))
+        message.set_payload(body)
 
         return message
 
@@ -80,6 +90,7 @@ class EmailSender(object):
     @staticmethod
     def create_body(query_results):
         full_rapport = ''
+        total_hits = 0
 
         for query_title in query_results:
             result = query_results[query_title]
@@ -105,5 +116,10 @@ class EmailSender(object):
                                                       )
 
                 counter += 1
+
+            total_hits += counter
+
+        if not total_hits:
+            return None
 
         return email_body_template.format(full_rapport=full_rapport)

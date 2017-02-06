@@ -26,8 +26,10 @@ if __name__ == '__main__':
         process.start()
 
     else:
+        query_results = es_helper.find_interesting_flats()
         sender = EmailSender()
         sender.send_email(['romek.rjm@gmail.com', 'sabina.subik@gmail.com'],
                           "New cool flats available in Krakow!",
-                          es_helper.find_interesting_flats()
+                          query_results
                           )
+        es_helper.mark_as_notified(query_results)
