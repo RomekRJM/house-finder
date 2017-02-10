@@ -78,8 +78,8 @@ def extract_date(response):
 
 
 def extract_geo_data(response):
-    latitude = response.css("div#adDetailInlineMap::attr(data-poi-lat)").extract_first()
-    longitude = response.css("div#adDetailInlineMap::attr(data-poi-lon)").extract_first()
+    latitude = response.css("div#mapContainer::attr(data-lat)").extract_first()
+    longitude = response.css("div#mapContainer::attr(data-lon)").extract_first()
 
     return {
         'lat': normalize_number(latitude, type='float'),
