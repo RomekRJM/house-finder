@@ -1,14 +1,71 @@
 {
-  "type": "FeatureCollection",
-  "features": [
-    {
-      "type": "Feature",
-      "properties": {},
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-           [
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "function_score": {
+            "query": {
+              "match_all": {}
+            },
+            "functions": [
+              {
+                "script_score": {
+                  "script": "(Math.pow(doc['year_built'].value,2)+Math.pow(doc['num_rooms'].value,5)+Math.pow(doc['size'].value,3) ) / (Math.pow(doc['floor'].value,5))/Math.pow(doc['price_per_sqm'].value,1)"
+                }
+              }
+            ],
+            "score_mode": "avg",
+            "boost_mode": "sum"
+          }
+        },
+        {
+          "match": {
+            "ownership": "pełna własność"
+          }
+        },
+        {
+          "range": {
+            "size": {
+              "gte": 45
+            }
+          }
+        },
+        {
+          "range": {
+            "price": {
+              "lte": 450000
+            }
+          }
+        },
+        {
+          "range": {
+            "num_rooms": {
+              "gte": 3
+            }
+          }
+        },
+        {
+          "range": {
+            "floor": {
+              "gte": 1,
+              "lte": 4
+            }
+          }
+        }
+      ],
+      "must_not": [
+        {
+          "exists": {
+            "field": "notified_on"
+          }
+        }
+      ],
+      "filter": [
+        {
+          "geo_polygon": {
+            "location": {
+              "points": [
+   [
               19.92495059967041,
               50.05275770417911
             ],
@@ -304,9 +361,11 @@
               19.92495059967041,
               50.05275770417911
             ]
-          ]
-        ]
-      }
+              ]
+            }
+          }
+        }
+      ]
     }
-  ]
+  }
 }

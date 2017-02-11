@@ -40,8 +40,12 @@ MAPPING = {
 
 QUERIES = [
     {
-        u'title': u'Kraków zachód',
-        u'query_path': 'spiders/search/queries/west_krakow.json'
+        u'title': u'Kraków północ',
+        u'query_path': 'spiders/search/queries/north_krakow.json'
+    },
+    {
+        u'title': u'Kraków poludnie',
+        u'query_path': 'spiders/search/queries/south_krakow.json'
     }
 ]
 
