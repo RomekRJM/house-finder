@@ -7,22 +7,23 @@
 
 import scrapy
 
+from spiders.utils import normalize_number
 
 field_mappings = {
-    u"informacje dodatkowe": "additional_info",
-    u"media": "utilities",
-    u"wyposażenie": "furnishings",
-    u"czynsz": "rent",
-    u"dostępne od": "available_from",
-    u"forma własności": "ownership",
-    u"materiał budynku": "construction_material",
-    u"ogrzewanie": "heating",
-    u"okna": "windows",
-    u"rodzaj zabudowy": "building_type",
-    u"rok budowy": "year_built",
-    u"rynek": "market",
-    u"stan wykończenia": "building_state",
-    u"zabezpieczenia": "security"
+    u"informacje dodatkowe": ("additional_info"),
+    u"media": ("utilities"),
+    u"wyposażenie": ("furnishings"),
+    u"czynsz": ("rent", normalize_number),
+    u"dostępne od": ("available_from"),
+    u"forma własności": ("ownership"),
+    u"materiał budynku": ("construction_material"),
+    u"ogrzewanie": ("heating"),
+    u"okna": ("windows"),
+    u"rodzaj zabudowy": ("building_type"),
+    u"rok budowy": ("year_built", normalize_number),
+    u"rynek": ("market"),
+    u"stan wykończenia": ("building_state"),
+    u"zabezpieczenia": ("security")
 }
 
 
@@ -54,4 +55,13 @@ class PropertyItem(scrapy.Item):
     notified_on = scrapy.Field()
 
     def set_field(self, polish_field_name, field_value):
-        self[field_mappings[polish_field_name]] = field_value
+        mapping = field_mappings[polish_field_name]
+
+        if isinstance(mapping, tuple):
+            english_field_name = mapping[0]
+            cast_function = mapping[1]
+            field_value = cast_function(field_value)
+        else:
+            english_field_name = mapping
+
+        self[english_field_name] = field_value
