@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# FILL THOSE VARIABLES IN
 HOUSE_FINDER_PATH=/home/odroid/house-finder/house-finder
 HOUSE_FINDER_VENV=/home/odroid/house-finder/venv
 ES_RUNABLE=/home/odroid/house-finder/elasticsearch-5.1.2/bin/elasticsearch
@@ -7,6 +8,7 @@ ES_RUNABLE=/home/odroid/house-finder/elasticsearch-5.1.2/bin/elasticsearch
 export EMAIL_USER="your-user@test.com"
 export EMAIL_PASS="emailpass"
 export SMTP_SERVER="smtpserver"
+# END OF VARIABLE SECTION
 
 if [ "$1" == 'start-es' ]
 then
