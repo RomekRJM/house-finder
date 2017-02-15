@@ -28,7 +28,7 @@ if __name__ == '__main__':
     else:
         query_results = es_helper.find_interesting_flats()
         sender = EmailSender()
-        sender.send_email(['romek.rjm@gmail.com', 'sabina.subik@gmail.com'],
+        sender.send_email(['romek.rjm@gmail.com', 'firek.sabina@gmail.com'],
                           "New cool flats available in Krakow!",
                           query_results
                           )
