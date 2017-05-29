@@ -62,7 +62,6 @@ class ElasticSearchHelper(object):
         results = {}
 
         for query in QUERIES:
-            query_body = {}
             with open(query['query_path']) as query_file:
                 query_body = json.load(query_file)
 
