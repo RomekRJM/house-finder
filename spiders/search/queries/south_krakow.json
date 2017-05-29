@@ -10,7 +10,7 @@
             "functions": [
               {
                 "script_score": {
-                  "script": "(Math.pow(doc['year_built'].value,2)+Math.pow(doc['num_rooms'].value,5)+Math.pow(doc['size'].value,3) ) / (Math.pow(doc['floor'].value,5))/Math.pow(doc['price_per_sqm'].value,1)"
+                  "script": "(Math.pow(doc['year_built'].value,2)+Math.pow(doc['num_rooms'].value,5)+Math.pow(doc['size'].value,3) ) / (Math.pow(doc['floor'].value,2))/Math.pow(doc['price_per_sqm'].value,1)"
                 }
               }
             ],
