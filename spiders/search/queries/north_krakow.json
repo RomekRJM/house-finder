@@ -39,6 +39,14 @@
         },
         {
           "range": {
+            "year_built": {
+              "gte": 1990,
+              "lte": 2017
+            }
+          }
+        },
+        {
+          "range": {
             "num_rooms": {
               "gte": 3
             }

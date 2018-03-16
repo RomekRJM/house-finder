@@ -21,7 +21,8 @@
 # 
 # m h  dom mon dow   command
 
-12 23 * * * /home/odroid/house-finder/house-finder/run-me-real.sh startes
+10 23 * * * /home/odroid/house-finder/house-finder/run-me-real.sh startes
+13 23 * * * /home/odroid/house-finder/house-finder/run-me-real.sh init
 15 23 * * * /home/odroid/house-finder/house-finder/run-me-real.sh crawl
-15 0 * * * /home/odroid/house-finder/house-finder/run-me-real.sh notify
-30 0 * * * /home/odroid/house-finder/house-finder/run-me-real.sh stopes
+40 0 * * * /home/odroid/house-finder/house-finder/run-me-real.sh notify
+45 0 * * * /home/odroid/house-finder/house-finder/run-me-real.sh stopes
