@@ -10,20 +10,20 @@ import scrapy
 from spiders.utils import normalize_number
 
 field_mappings = {
-    u"informacje dodatkowe": ("additional_info"),
-    u"media": ("utilities"),
-    u"wyposażenie": ("furnishings"),
-    u"czynsz": ("rent", normalize_number),
-    u"dostępne od": ("available_from"),
-    u"forma własności": ("ownership"),
-    u"materiał budynku": ("construction_material"),
-    u"ogrzewanie": ("heating"),
-    u"okna": ("windows"),
-    u"rodzaj zabudowy": ("building_type"),
-    u"rok budowy": ("year_built", normalize_number),
-    u"rynek": ("market"),
-    u"stan wykończenia": ("building_state"),
-    u"zabezpieczenia": ("security")
+    u"Informacje dodatkowe": ("additional_info"),
+    u"Media": ("utilities"),
+    u"Wyposażenie": ("furnishings"),
+    u"Czynsz": ("rent", normalize_number),
+    u"Dostępne od": ("available_from"),
+    u"Forma własności": ("ownership"),
+    u"Materiał budynku": ("construction_material"),
+    u"Ogrzewanie": ("heating"),
+    u"Okna": ("windows"),
+    u"Rodzaj zabudowy": ("building_type"),
+    u"Rok budowy": ("year_built", normalize_number),
+    u"Rynek": ("market"),
+    u"Stan wykończenia": ("building_state"),
+    u"Zabezpieczenia": ("security")
 }
 
 
