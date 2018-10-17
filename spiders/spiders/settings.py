@@ -15,6 +15,8 @@ SPIDER_MODULES = ['spiders.spiders']
 NEWSPIDER_MODULE = 'spiders.spiders'
 DEFAULT_ITEM_CLASS = 'spiders.items.PropertyItem'
 
+USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36'
+
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'spiders (+http://www.yourdomain.com)'
 
@@ -27,7 +29,8 @@ ROBOTSTXT_OBEY = True
 # Configure a delay for requests for the same website (default: 0)
 # See http://scrapy.readthedocs.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-#DOWNLOAD_DELAY = 3
+DOWNLOAD_DELAY = 0.2
+
 # The download delay setting will honor only one of:
 #CONCURRENT_REQUESTS_PER_DOMAIN = 16
 #CONCURRENT_REQUESTS_PER_IP = 16
@@ -90,7 +93,7 @@ ROBOTSTXT_OBEY = True
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 
 ITEM_PIPELINES = {
-  'scrapyelasticsearch.scrapyelasticsearch.ElasticSearchPipeline': 800,
+  'scrapyelasticsearch.scrapyelasticsearch.ElasticSearchPipeline': 100,
 }
 
 ELASTICSEARCH_UNIQ_KEY = 'url'
