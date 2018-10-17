@@ -88,4 +88,4 @@ def extract_geo_data(response):
 
 
 def extract_images(response):
-    return response.css("a.gallery-box-thumb-item::attr(href)").extract()
+    return response.css("div.item img::attr(src)").extract()
