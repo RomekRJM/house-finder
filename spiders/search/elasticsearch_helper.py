@@ -28,8 +28,7 @@ MAPPING = {
                 {
                     "all_string_fields": {
                         "mapping": {
-                            "type": "string",
-                            "analyzer": "polish"
+                            "type": "string"
                         },
                         "match_mapping_type": "string"
                     }

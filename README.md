@@ -5,8 +5,9 @@ Later uses advanced queries, to find flat matching location, price and couple ot
 and notifies about best ones via email.
 
 # Installation
-- Install Elasticsearch 5: https://www.elastic.co/downloads/past-releases/elasticsearch-5-0-0
-- Install Polish language analyzer: https://www.elastic.co/guide/en/elasticsearch/plugins/5.0/analysis-stempel.html
+- Install Python 3 ( tested on 3.6 ): https://www.python.org/downloads/
+- Install Elasticsearch 7.2: https://www.elastic.co/guide/en/elasticsearch/reference/7.2/install-elasticsearch.html
+
 ```
 git clone https://github.com/RomekRJM/house-finder.git
 pip install virtualenv
