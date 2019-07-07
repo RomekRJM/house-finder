@@ -74,7 +74,7 @@ class EmailSender(object):
         message = Message()
         message['From'] = self.user
         message['To'] = ", ".join(recipients)
-        message['Subject'] = subject.encode('utf-8')
+        message['Subject'] = subject
         message.add_header('Content-Type', 'text/html')
         message.set_payload(body)
 
@@ -107,10 +107,10 @@ class EmailSender(object):
                 first_image = reduce(lambda x,y: x or y, item.get('images', []))
                 full_rapport += flat_info_body.format(url=item.get('url', '?'),
                                                       image=first_image,
-                                                      title=item.get('title', '?').encode('utf-8'),
-                                                      price=str(item.get('price', '?')) + ' PLN'.encode('utf-8'),
+                                                      title=item.get('title', '?'),
+                                                      price=str(item.get('price', '?')) + ' PLN',
                                                       size=str(item.get('size', '?')) + " m^2",
-                                                      query=query_title.encode('utf-8'),
+                                                      query=query_title,
                                                       floor=item.get('floor', '?'),
                                                       score=round(float(hit.get('_score')), 2),
                                                       color='#e6f7ff' if counter % 2 else '#f0f5f5'
@@ -123,4 +123,4 @@ class EmailSender(object):
         if not total_hits:
             return None
 
-        return email_body_template.format(full_rapport=full_rapport)
+        return email_body_template.format(full_rapport=full_rapport.encode('utf-8'))

@@ -3,10 +3,9 @@
 import os
 import sys
 
+from notifier.sender import EmailSender
 from scrapy.crawler import CrawlerProcess
 from scrapy.utils.project import get_project_settings
-
-from notifier.sender import EmailSender
 from search.elasticsearch_helper import ElasticSearchHelper, MAPPING
 from spiders.spiders.otodom_spider import OtoDomSpider
 
@@ -28,7 +27,7 @@ if __name__ == '__main__':
     else:
         query_results = es_helper.find_interesting_flats()
         sender = EmailSender()
-        sender.send_email(['romek.rjm@gmail.com', 'firek.sabina@gmail.com'],
+        sender.send_email(['romek.rjm@gmail.com', 'dorota.kf.s@gmail.com'],
                           "New cool flats available in Krakow!",
                           query_results
                           )

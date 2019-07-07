@@ -13,38 +13,33 @@ MAPPING = {
         "number_of_shards": 1
     },
     "mappings": {
-        ELASTICSEARCH_TYPE: {
-            "dynamic_templates": [
-                {
-                    "location_field": {
-                        "mapping": {
-                            "type": "geo_point",
-                            "tree": "quadtree",
-                            "precision": "1m"
-                        },
-                        "match": "location"
-                    }
-                },
-                {
-                    "all_string_fields": {
-                        "mapping": {
-                            "type": "string"
-                        },
-                        "match_mapping_type": "string"
-                    }
-                }]
-        }
+        "dynamic_templates": [
+            {
+                "location_field": {
+                    "mapping": {
+                        "type": "geo_point",
+                        "tree": "quadtree",
+                        "precision": "1m"
+                    },
+                    "match": "location"
+                }
+            },
+            {
+                "all_string_fields": {
+                    "mapping": {
+                        "type": "text"
+                    },
+                    "match_mapping_type": "string"
+                }
+            }
+        ]
     }
 }
 
 QUERIES = [
     {
-        u'title': u'Kraków północ',
-        u'query_path': 'spiders/search/queries/north_krakow.json'
-    },
-    {
-        u'title': u'Kraków poludnie',
-        u'query_path': 'spiders/search/queries/south_krakow.json'
+        u'title': u'Wybrane przez Dorotę',
+        u'query_path': 'spiders/search/queries/dorota.json'
     }
 ]
 
@@ -55,7 +50,10 @@ class ElasticSearchHelper(object):
 
     def redo_index(self, mapping):
         requests.delete(self.url)
-        requests.put(self.url, json=mapping)
+        response = requests.put(self.url, json=mapping)
+
+        if response.status_code != 200:
+            print('Got response {} form ElasticSearch, reason: {}'.format(response.status_code, response.json()))
 
     def find_interesting_flats(self):
         results = {}
@@ -69,7 +67,7 @@ class ElasticSearchHelper(object):
             if response.status_code == 200:
                 results[query['title']] = response.json().get('hits', [])
             else:
-                print('Got response {} form ElasticSearch, reason: {}'.format(response.status_code, response.json))
+                print('Got response {} form ElasticSearch, reason: {}'.format(response.status_code, response.json()))
 
         return results
 
