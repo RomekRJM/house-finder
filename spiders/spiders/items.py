@@ -7,7 +7,7 @@
 
 import scrapy
 
-from spiders.utils import normalize_number
+from .spiders.utils import normalize_number
 
 field_mappings = {
     u"Informacje dodatkowe": ("additional_info"),

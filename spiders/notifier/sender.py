@@ -4,6 +4,7 @@ __author__ = "roman.subik"
 import os
 import smtplib
 from email.message import Message
+from functools import reduce
 
 email_body_template = """
 <h3>Dear recipients!<br/>
@@ -54,14 +55,14 @@ class EmailSender(object):
         message = self._create_message(recipients, subject, query_results)
 
         if not message:
-            print 'Nothing to notify about today'
+            print('Nothing to notify about today')
             return
 
         try:
             self._send_message(recipients, message)
-            print 'Successfully sent the mail'
+            print('Successfully sent the mail')
         except Exception as e:
-            print "Failed to send mail: {}".format(e)
+            print("Failed to send mail: {}".format(e))
             raise e
 
     def _create_message(self, recipients, subject, query_results):

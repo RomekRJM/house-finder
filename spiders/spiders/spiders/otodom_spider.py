@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 import scrapy
 from spiders.items import PropertyItem
 
-from utils import normalize_number, normalize_string
+from .utils import normalize_number, normalize_string
 
 
 class OtoDomSpider(scrapy.Spider):
