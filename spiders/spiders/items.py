@@ -23,7 +23,11 @@ field_mappings = {
     u"Rok budowy": ("year_built", normalize_number),
     u"Rynek": ("market"),
     u"Stan wykończenia": ("building_state"),
-    u"Zabezpieczenia": ("security")
+    u"Zabezpieczenia": ("security"),
+    u"Powierzchnia": ("size", normalize_number),
+    u"Liczba pokoi": ("num_rooms", normalize_number),
+    u"Piętro": ("floor", normalize_number),
+    u"Liczba pięter": ("num_floors", normalize_number),
 }
 
 
@@ -35,6 +39,7 @@ class PropertyItem(scrapy.Item):
     size = scrapy.Field()
     num_rooms = scrapy.Field()
     floor = scrapy.Field()
+    num_floors = scrapy.Field()
     price_per_sqm = scrapy.Field()
     location = scrapy.Field()
     additional_info = scrapy.Field()
