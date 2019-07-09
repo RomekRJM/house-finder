@@ -3,7 +3,7 @@ __author__ = "roman.subik"
 
 import os
 import smtplib
-from email.message import Message
+from email.mime.text import MIMEText
 from functools import reduce
 
 email_body_template = """
@@ -71,12 +71,11 @@ class EmailSender(object):
         if not body:
             return None
 
-        message = Message()
+        message = MIMEText(body, 'html')
         message['From'] = self.user
         message['To'] = ", ".join(recipients)
         message['Subject'] = subject
-        message.add_header('Content-Type', 'text/html')
-        message.set_payload(body)
+        message.add_header('Content-Type', 'text/html', charset='utf-8')
 
         return message
 
@@ -123,4 +122,4 @@ class EmailSender(object):
         if not total_hits:
             return None
 
-        return email_body_template.format(full_rapport=full_rapport.encode('utf-8'))
+        return email_body_template.format(full_rapport=full_rapport)
