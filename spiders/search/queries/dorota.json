@@ -10,7 +10,7 @@
             "functions": [
               {
                 "script_score": {
-                  "script": "(Math.pow(doc['year_built'].value,2)+Math.pow(doc['num_rooms'].value,5)+Math.pow(doc['size'].value,3) ) / (Math.pow(doc['floor'].value,2))/Math.pow(doc['price_per_sqm'].value,1)"
+                  "script": "(Math.pow(doc['year_built'].value,2)+Math.pow(doc['num_rooms'].value,5)+Math.pow(doc['size'].value,3)) / doc['price_per_sqm'].value"
                 }
               }
             ],
@@ -40,8 +40,8 @@
         {
           "range": {
             "year_built": {
-              "gte": 1980,
-              "lte": 2018
+              "gte": 1970,
+              "lte": 2019
             }
           }
         },
@@ -55,16 +55,9 @@
         {
           "range": {
             "floor": {
-              "gte": 1,
-              "lte": 10
+              "gte": 0,
+              "lte": 15
             }
-          }
-        }
-      ],
-      "must_not": [
-        {
-          "exists": {
-            "field": "notified_on"
           }
         }
       ],
