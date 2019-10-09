@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 __author__ = "roman.subik"
 
 import re
